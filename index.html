@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Jogo da Forca</title>
+    <script src="elm.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  </body>
+  <script>
+    var forca = Elm.Forca.fullscreen();
+
+    forca.ports.limparPalavra.subscribe(function(palavra) {
+      var normalizada = palavra.normalize('NFKD'),
+        limpa = [],
+        len = normalizada.length,
+        i;
+
+      for (i = 0; i < len; ++i) {
+        if (normalizada.charCodeAt(i) < 128) {
+          limpa.push(normalizada.charAt(i));
+        }
+      }
+
+      forca.ports.setPalavraLimpa.send(limpa.join(''));
+    });
+  </script>
+</html>
